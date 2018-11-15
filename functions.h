@@ -84,6 +84,7 @@ void Initialize_GPIO_Interrupts();
 void enable_interrupts();
 void SendChar(uint8_t C);
 void MY_GT_IRQ();
+void SEND_READY();
 
 void Initialize_SVD()
 {
@@ -93,11 +94,6 @@ void Initialize_SVD()
 	*((uint32_t*)DIG3_ADDRESS) = 0x0;
 	*((uint32_t*)DIG4_ADDRESS) = 0x0;
 	*((uint32_t*)SVN_SEG_DP) = 0x1;
-	*((uint32_t*)D1) =0;
-	*((uint32_t*)D2) =0;
-	*((uint32_t*)D3) =0;
-	*((uint32_t*)D4) =0;
-	START=0;
 	//I think I need to add some code here that
 	return;
 }
@@ -222,37 +218,27 @@ void SendChar(uint8_t C){
 *((uint32_t*) UART1_FIFO_Addr) = C; // Disable interrupt
 }
 
+//I feel like I need to edit this
 void MY_GT_IRQ(){
- D4=D4+1;
- if (D4<10)
-	 *((uint32_t*) DIG4_ADDRESS) = D4;
- else{
-	 D4=0;
-	 *((uint32_t*) DIG4_ADDRESS) = D4;
-	 D3=D3+1;
-	 if (D3<10)
-		 *((uint32_t*) DIG3_ADDRESS) = D3;
-	 else{
-		 D3=0;
-		 *((uint32_t*) DIG3_ADDRESS) = D3;
-		 D2=D2+1;
-		 if (D2<10)
-			 *((uint32_t*) DIG2_ADDRESS) = D2;
-		 else{
-			 D2=0;
-			 *((uint32_t*) DIG2_ADDRESS) = D2;
-			 D1= D1+1;
-			 if (D1<10)
-				 *((uint32_t*) DIG1_ADDRESS) = D1;
-			 else {
-				 D1=0;
-				 *((uint32_t*) DIG1_ADDRESS) = D1;
-			 }
-		 }
-	 }
- }
-*((uint32_t*) GT_COUNTER0_ADDRESS) = 0x00000000; // reset Counter
-*((uint32_t*) GT_COUNTER1_ADDRESS) = 0x00000000;
-*((uint32_t*) GT_CONTROL_ADDRESS) = 0x010F; // Start Timer
-*((uint32_t*) GT_INTSTAT_ADDRESS) = 0x1; // clear Global Timer Interrupt Flag bit.
+ return 0;
+}
+
+void SEND_READY()
+{
+	uint8_t C = 'R';
+	SendChar(C);
+	C = 'E';
+	SendChar(C);
+	C = 'A';
+	SendChar(C);
+	C = 'D';
+	SendChar(C);
+	C = 'Y';
+	SendChar(C);
+	C = '>';
+	SendChar(C);
+	C = '>';
+	SendChar(C);
+	C=13;
+	SendChar(C);
 }
