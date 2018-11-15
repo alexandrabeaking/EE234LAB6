@@ -7,7 +7,7 @@ int main()
  configure_GIC_GPIO();
  Initialize_GPIO_Interrupts();
  enable_interrupts();
- SEND_READY();
+ SEND_READY(); //not sure about this function in general, idk what it's meant to do
  Xil_ExceptionRegisterHandler(5, IRQ_Handler, NULL);// build-in
  while(1){
  uint32_t R= *((uint32_t*) UART1_C_Stat_Addr);
